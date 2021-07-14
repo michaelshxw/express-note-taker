@@ -26,7 +26,13 @@ app.get("/notes", (req, res) => {
 
 app.get("/api/notes", (req, res) => {
   // read db.json
-  // return saved notes as json
+  fs.readFile(path.join(__dirname, "db/db.json"), (error, data) => {
+    if (error) {
+      throw error;
+    }
+    // return saved notes as json
+    res.json(JSON.parse(data))
+  })
 });
 
 app.post("/api/notes", (req, res) => {
