@@ -9,14 +9,15 @@ const PORT = process.env.PORT || 8080;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
-const notes = require("./db/db.json")
 
-const handleRequest = (request, response) => {
-  response.end(`It Works!! Path Hit: ${request.url}`);
-};
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "/index.html"));
+});
 
-const server = http.createServer(handleRequest);
+app.get("/notes", (req, res) => {
+  res.sendFile(path.join(__dirname, "/notes.html"));
+});
 
-server.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Server listening on: http://localhost:${PORT}`);
 });
