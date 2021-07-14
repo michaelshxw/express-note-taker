@@ -32,6 +32,22 @@ app.post("/api/notes", (req, res) => {
   // receive a note to save on the request body
   // add to db.json file
   // return the new note to the client with a unique id using uuid
+  fs.readFile(path.join(__dirname, "/db/db.json"), (error, data) => {
+    if (error) {
+      throw error;
+    };
+    const allNotes = JSON.parse(data);
+    const newNote = req.body;
+    newNote.id = uuid.v4();
+    allNotes.push(newNote);
+    
+    fs.writeFile(path.join(__dirname, "/db/db.json"), JSON.stringify(allNotes), (error) => {
+      if (error) {
+        throw error;
+      }
+      res.json(newNote);
+    })
+  })
 });
 
 app.delete("/api/notes:id", (req, res) => {
